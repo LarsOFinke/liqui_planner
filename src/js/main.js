@@ -32,14 +32,15 @@ Datum: ${this.neuer_eintrag.datum}`);
     },
 
     eintrag_mit_gesamtbilanz_verrechnen() {
-        if (this.neuer_eintrag.typ === "Einnahme") {
-            this.gesamtbilanz.einnahmen += this.neuer_eintrag.betrag;
-            this.gesamtbilanz.bilanz += this.neuer_eintrag.betrag;
-        } else if (this.neuer_eintrag.typ === "Ausgabe") {
-            this.gesamtbilanz.ausgaben += this.neuer_eintrag.betrag;
-            this.gesamtbilanz.bilanz -= this.neuer_eintrag.betrag;
-        }else {
-            console.log(`Der Typ "${this.neuer_eintrag.typ}" ist nicht bekannt`)
+        switch (this.neuer_eintrag.typ) {
+            case "Einnahme":
+                this.gesamtbilanz.einnahmen += this.neuer_eintrag.betrag;
+                this.gesamtbilanz.bilanz += this.neuer_eintrag.betrag;
+            case "Ausgabe":
+                this.gesamtbilanz.einnahmen += this.neuer_eintrag.betrag;
+                this.gesamtbilanz.bilanz += this.neuer_eintrag.betrag;
+            default:
+                console.log(`Der Typ "${this.neuer_eintrag.typ}" ist nicht bekannt`)
         }
     },
 
