@@ -40,25 +40,13 @@ const haushaltsbuch = {
 
     eintraege_sortieren() {
         this.eintraege.sort((eintrag_a, eintrag_b) => {
-            if (eintrag_a.get("datum") > eintrag_b.get("datum")) {
-                return -1;
-            } else if (eintrag_a.get("datum") < eintrag_b.get("datum")) {
-                return 1;
-            } else {
-                return 0;
-            }
+            return eintrag_a.get("datum") > eintrag_b.get("datum") ? -1 : eintrag_a.get("datum") < eintrag_b.get("datum") ? 1 : 0;
         });
     },
 
     html_eintrag_generieren(eintrag) {
         let listenpunkt = document.createElement("li");
-
-        if (eintrag.get("typ") === "einnahme") {
-            listenpunkt.setAttribute("class", "einnahme");
-        } else if (eintrag.get("typ") === "ausgabe") {
-            listenpunkt.setAttribute("class", "ausgabe");
-        }
-
+        eintrag.get("typ") === "einnahme" ? listenpunkt.setAttribute("class", "einnahme") : listenpunkt.setAttribute("class", "ausgabe");
         listenpunkt.setAttribute("data-timestamp", eintrag.get("timestamp"));
 
         let datum = document.createElement("span");
@@ -169,11 +157,7 @@ const haushaltsbuch = {
         bilanz_titel.textContent = "Bilanz:";
         bilanz_zeile.insertAdjacentElement("afterbegin", bilanz_titel);
         let bilanz_betrag = document.createElement("span");
-        if (this.gesamtbilanz.get("bilanz") >= 0) {
-            bilanz_betrag.setAttribute("class", "positiv");
-        } else if (this.gesamtbilanz.get("bilanz") < 0) {
-            bilanz_betrag.setAttribute("class", "negativ");
-        }
+        this.gesamtbilanz >= 0 ? bilanz_betrag.setAttribute("class", "positiv") : bilanz_betrag.setAttribute("class", "negativ");
         bilanz_betrag.textContent = `${(this.gesamtbilanz.get("bilanz") / 100).toFixed(2).replace(/\./, ",")} €`;
         bilanz_zeile.insertAdjacentElement("beforeend", bilanz_betrag);
         gesamtbilanz.insertAdjacentElement("beforeend", bilanz_zeile);
