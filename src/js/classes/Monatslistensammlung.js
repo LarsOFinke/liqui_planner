@@ -22,13 +22,29 @@ class Monatslistensammlung {
         if (!monatsliste_vorhanden) {
             this._monatsliste_hinzufuegen(eintragsjahr, eintragsmonat, eintrag);
         }
-        this._aktualisieren();
+        this.anzeigen();
     }
 
     _monatsliste_hinzufuegen(jahr, monat, eintrag) {
         let neue_monatsliste = new Monatsliste(jahr, monat);
         neue_monatsliste.eintrag_hinzufuegen(eintrag);
         this._monatslisten.push(neue_monatsliste);
+    }
+
+    _monatslisten_sortieren() {
+        this._monatslisten.sort((monatsliste_a, monatsliste_b) => {
+            if (monatsliste_a.jahr() < monatsliste_b.jahr()) {
+                return 1;
+            } else if (monatsliste_a.jahr() > monatsliste_b.jahr()) {
+                return -1;
+            } else {
+                if (monatsliste_a.monat() < monatsliste_b.monat()) {
+                    return 1;
+                } else {
+                    return -1;
+                }
+            }
+        });
     }
 
     _html_generieren() {
@@ -41,7 +57,10 @@ class Monatslistensammlung {
         return monatslisten;
     }
 
-    _aktualisieren() {
+    aktualisieren(eintraege) {
+        this._monatslisten = [];
+        eintraege.forEach(eintrag => this.eintrag_hinzufuegen(eintrag));
+        this._monatslisten_sortieren();
         this._html = this._html_generieren();
         this.anzeigen();
     }

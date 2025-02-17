@@ -20,13 +20,37 @@ class Monatsliste {
         this._aktualisieren();
     }
 
-    // _eintraege_sortieren() {
-    //     this._eintraege.sort((eintrag_a, eintrag_b) => {
-    //         return eintrag_a.datum() > eintrag_b.datum() ? -1 : eintrag_a.datum() < eintrag_b.datum() ? 1 : 0;
-    //     });
-    // }
+    _eintraege_sortieren() {
+        this._eintraege.sort((eintrag_a, eintrag_b) => {
+            if (eintrag_a.datum() > eintrag_b.datum()) {
+                return -1;
+            } else if (eintrag_a.datum() < eintrag_b.datum()) {
+                return 1;
+            } else {
+                if (eintrag_a.timestamp() > eintrag_b.timestamp()) {
+                    return -1;
+                } else {
+                    return 1;
+                }
+            }
+        });
+    }
+
+    _bilanzieren() {
+        let monatsbilanz = 0;
+        this._eintraege.forEach(eintrag => {
+            if (eintrag.typ() == "einnahme") {
+                monatsbilanz += eintrag.betrag();
+            } else {
+                monatsbilanz -= eintrag.betrag();
+            }
+        });
+        this._bilanz = monatsbilanz;
+    }
 
     _aktualisieren() {
+        this._eintraege_sortieren();
+        this._bilanzieren();
         this._html = this._html_generieren();
     }
 
@@ -50,7 +74,7 @@ class Monatsliste {
         } else {
             monatsbilanz.setAttribute("class", "monatsbilanz negativ");
         }
-        monatsbilanz.textContent = `${this._bilanz} €`;
+        monatsbilanz.textContent = `${(this._bilanz / 100).toFixed(2).replace(/\./, ",")} €`;
         ueberschrift.insertAdjacentElement("beforeend", monatsbilanz);
 
         monatsliste.insertAdjacentElement("afterbegin", ueberschrift);
