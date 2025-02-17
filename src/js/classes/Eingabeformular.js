@@ -51,9 +51,9 @@ class Eingabeformular {
 
     _absenden_event_hinzufuegen(eingabeformular) {
         eingabeformular.querySelector("#eingabeformular").addEventListener("submit", e => {
-           e.preventDefault();
-           let formulardaten = this._formulardaten_verarbeiten(this._formulardaten_holen(e));
-           let formular_fehler = this._formulardaten_validieren(formulardaten);
+            e.preventDefault();
+            let formulardaten = this._formulardaten_verarbeiten(this._formulardaten_holen(e));
+            let formular_fehler = this._formulardaten_validieren(formulardaten);
 
             if (formular_fehler.length === 0) {
                 haushaltsbuch.eintrag_hinzufuegen(formulardaten);
@@ -61,7 +61,6 @@ class Eingabeformular {
                 if (bestehende_fehlerbox !== null) {
                     bestehende_fehlerbox.remove();
                 }
-                this._fehlerbox_entfernen();
                 e.target.reset();
                 this._datum_aktualisieren();
             } else {
