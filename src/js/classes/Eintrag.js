@@ -16,13 +16,11 @@ class Eintrag {
     typ() { return this._typ; }
     datum() { return this._datum; }
     timestamp() { return this._timestamp; }
-
-    html() {
-        return this._html;
-    }
+    html() { return this._html; }
 
 
     _html_generieren() {
+
         let listenpunkt = document.createElement("li");
         this._typ === "einnahme" ? listenpunkt.setAttribute("class", "einnahme") : listenpunkt.setAttribute("class", "ausgabe");
         listenpunkt.setAttribute("data-timestamp", this._timestamp);

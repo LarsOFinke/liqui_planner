@@ -7,7 +7,6 @@ class Gesamtbilanz {
         this._ausgaben = 0;
         this._bilanz = 0;
         this._html = this._html_generieren();
-        this._anzeigen();
     }
 
     aktualisieren(eintraege) {
